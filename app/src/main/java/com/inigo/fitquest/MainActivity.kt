@@ -4,6 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -17,6 +22,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 class MainActivity : ComponentActivity() {
@@ -85,7 +92,27 @@ fun CheckRewardsScreen() {
 
 @Composable
 fun WorkoutLibraryScreen() {
-    Text("Workout Library", style = MaterialTheme.typography.h6)
+    Column {
+        Text("Workout Library", style = MaterialTheme.typography.h6, modifier = Modifier.padding(16.dp))
+        ExerciseList(exercises)
+    }
+}
+
+@Composable
+fun ExerciseList(exercises: List<Exercise>) {
+    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)) {
+        items(exercises) { exercise ->
+            ExerciseItem(exercise)
+        }
+    }
+}
+
+@Composable
+fun ExerciseItem(exercise: Exercise) {
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+        Text(exercise.name, style = MaterialTheme.typography.h6)
+        Text(exercise.description, style = MaterialTheme.typography.body2)
+    }
 }
 
 @Composable
